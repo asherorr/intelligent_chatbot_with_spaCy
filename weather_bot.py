@@ -1,4 +1,7 @@
 import requests
+import spacy
+
+nlp = spacy.load("en_core_web_md")
 
 api_key = ""
 #Enter your OpenWeather API key in the line above.
@@ -17,3 +20,30 @@ def get_weather(city_name):
         print('[!] HTTP {0} calling [{1}]'.format(response.status_code, api_url))
         return None
 
+def chatbot():
+    while True:
+        user_statement = input('''
+                        \rAsk the chatbot what the weather is in any city.
+                        \rExample: What is the weather like in Atlanta today?
+                        \r\nEnter your question: ''')
+        weather = nlp("Current weather in a city")
+        statement = nlp(user_statement)
+        min_similarity = 0.71
+        
+        if weather.similarity(statement) >= min_similarity:
+            for ent in statement.ents:
+                if ent.label_ == "GPE": # Geopolitical Entity
+                    city = ent.text
+                    break
+                else:
+                    return "You need to tell me a city to check."
+                
+            city_weather = get_weather(city)
+            if city_weather is not None:
+                return "In " + city + ", the current weather is: " + city_weather + "."
+            else:
+                return "Something went wrong."
+        else:
+            print("Sorry, I don't understand that. Please rephrase your statement.")
+            continue
+    
