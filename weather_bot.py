@@ -1,5 +1,6 @@
 import requests
 import spacy
+import sys
 
 nlp = spacy.load("en_core_web_md")
 
@@ -21,6 +22,7 @@ def menu():
                   \rEither the letter a or b (in lowercase.)
                   \nPress enter to try again. ''')
 
+
 def get_weather(city_name):
     api_url = "http://api.openweathermap.org/data/2.5/weather?q={}&appid={}".format(city_name, api_key)
 
@@ -34,6 +36,7 @@ def get_weather(city_name):
     else:
         print('[!] HTTP {0} calling [{1}]'.format(response.status_code, api_url))
         return None
+
 
 def chatbot():
     while True:
@@ -62,3 +65,19 @@ def chatbot():
             print("Sorry, I don't understand that. Please rephrase your statement.")
             continue
     
+    
+def app():
+    app_running = True
+    while app_running:
+        choice = menu()
+        if choice == "a":
+            result = chatbot()
+            print(result)
+            continue
+        elif choice == "b":
+            print("Goodbye! The program will close down now.")
+            sys.exit()
+            
+            
+def main():
+    app()
