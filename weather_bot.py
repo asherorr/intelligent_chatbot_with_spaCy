@@ -1,6 +1,7 @@
 import requests
 import spacy
 import sys
+import time
 
 nlp = spacy.load("en_core_web_md")
 
@@ -73,6 +74,7 @@ def app():
         if choice == "a":
             result = chatbot()
             print(result)
+            time.sleep(1.5)
             continue
         elif choice == "b":
             print("Goodbye! The program will close down now.")
