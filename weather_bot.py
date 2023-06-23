@@ -6,6 +6,21 @@ nlp = spacy.load("en_core_web_md")
 api_key = ""
 #Enter your OpenWeather API key in the line above.
 
+def menu():
+    while True:
+        print('''
+              \r--- MENU ---
+              \rInteract with the Chatbot (Enter a)
+              \rEnd the program (Enter b)''')
+        choice = input("\nWhat would you like to do? ")
+        if choice in ['a', 'b']:
+            return choice
+        else:
+            input('''
+                  \rPlease only choose one of the options above.
+                  \rEither the letter a or b (in lowercase.)
+                  \nPress enter to try again. ''')
+
 def get_weather(city_name):
     api_url = "http://api.openweathermap.org/data/2.5/weather?q={}&appid={}".format(city_name, api_key)
 
